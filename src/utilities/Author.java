@@ -1,8 +1,6 @@
 package utilities;
 
 public class Author {
-    //Type tip = Type.novelist
-
     AuthorType[] type;
     String name;
     String country;
