@@ -1,6 +1,7 @@
 package users;
 import utilities.ReadingList;
 import books.*;
+import utilities.ReadingState;
 
 import java.util.Date;
 
@@ -32,11 +33,11 @@ public class Member extends User{
     public void deleteBook(String title){
 
     }
-/*
-    public void updateStatus(String title){
+
+    public void updateStatus(String title, ReadingState status){
 
     }
-
+/*
     public void updateScore{
 
     }
