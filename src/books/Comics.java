@@ -8,10 +8,8 @@ public final class Comics extends Book{
     int volumes;
     int chapters;
 
-    public Comics() {
-    }
-
-    public Comics(Author writer, Author illustrator, int volumes, int chapters) {
+    public Comics(String title, String language, Author writer, Author illustrator, int volumes, int chapters) {
+        super(title, language);
         this.writer = writer;
         this.illustrator = illustrator;
         this.volumes = volumes;

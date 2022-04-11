@@ -6,10 +6,8 @@ public final class Illustrations extends Book{
     Author illustrator;
     int pages;
 
-    public Illustrations() {
-    }
-
-    public Illustrations(Author illustrator, int pages) {
+    public Illustrations(String title, String language, Author illustrator, int pages) {
+        super(title, language);
         this.illustrator = illustrator;
         this.pages = pages;
     }

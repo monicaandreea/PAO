@@ -1,5 +1,6 @@
 package utilities;
 import books.Book;
+import books.Comics;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,18 +9,15 @@ import java.util.Date;
 public class ReadingList {
     Book book;
     ReadingState status;
-    int pages_read;
+    int amount_read;
     ReadingScore score;
     Date start_date;
     Date end_date;
 
-    public ReadingList() {
-    }
-
-    public ReadingList(Book book, ReadingState status, int pages_read, ReadingScore score, Date start_date, Date end_date) {
+    public ReadingList(Book book, ReadingState status, int amount_read, ReadingScore score, Date start_date, Date end_date) {
         this.book = book;
         this.status = status;
-        this.pages_read = pages_read;
+        this.amount_read = amount_read;
         this.score = score;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -33,12 +31,12 @@ public class ReadingList {
         this.book = book;
     }
 
-    public int getPages_read() {
-        return pages_read;
+    public int getAmount_read() {
+        return amount_read;
     }
 
-    public void setPages_read(int pages_read) {
-        this.pages_read = pages_read;
+    public void setAmount_read(int pages_read) {
+        this.amount_read = pages_read;
     }
 
     public Date getStart_date() {
@@ -71,5 +69,21 @@ public class ReadingList {
 
     public void setScore(ReadingScore score) {
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        if( this.book instanceof Comics){
+            String amount_of = "volumes";
+        }
+
+        return "ReadingList{" +
+                "book=" + book.getTitle() +
+                ", status=" + status +
+                ", amount_read=" + amount_read +
+                ", score=" + score +
+                ", start_date=" + start_date +
+                ", end_date=" + end_date +
+                '}';
     }
 }

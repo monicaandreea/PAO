@@ -7,10 +7,8 @@ public final class Novel extends Book{
     int chapters;
     int pages;
 
-    public Novel() {
-    }
-
-    public Novel(Author novelist, int chapters, int pages) {
+    public Novel(String title, String language, Author novelist, int chapters, int pages) {
+        super(title, language);
         this.novelist = novelist;
         this.chapters = chapters;
         this.pages = pages;

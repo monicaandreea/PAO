@@ -1,7 +1,7 @@
 package users;
 import utilities.ReadingList;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -10,6 +10,7 @@ public class User {
     int id;
     String email;
     String nickname;
+    String password;
     Date birthday;
     //new Date(2001, 6, 20)
     int age;
@@ -18,10 +19,12 @@ public class User {
     public User() {
     }
 
-    public User(String email, String nickname, Date birthday) {
+    public User(String email, String nickname, Date birthday, String password) {
         this.email = email;
         this.nickname = nickname;
         this.birthday = birthday;
+        this.password = password;
+        this.calculateAge();
     }
 
     public int getId() {
@@ -60,7 +63,24 @@ public class User {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void calculateAge() {
+        //      System.out.println("Enter your date of birth (dd-MM-yyyy): ");
+        //      String dob = sc.next();
+        //      SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        //      Date date = formatter.parse(dob);
+        Instant instant = birthday.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(givenDate, LocalDate.now());
+
+        this.age = period.getYears();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nickname='" + nickname + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

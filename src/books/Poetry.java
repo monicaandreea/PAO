@@ -6,10 +6,8 @@ public final class Poetry extends Book{
     Author poet;
     int no_poems;
 
-    public Poetry() {
-    }
-
-    public Poetry(Author poet, int no_poems) {
+    public Poetry(String title, String language, Author poet, int no_poems) {
+        super(title, language);
         this.poet = poet;
         this.no_poems = no_poems;
     }

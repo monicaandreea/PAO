@@ -4,6 +4,11 @@ public sealed class Book permits Novel, Poetry, Comics, Illustrations{
     String title;
     String language;
 
+    public Book(String title, String language) {
+        this.title = title;
+        this.language = language;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -20,5 +25,10 @@ public sealed class Book permits Novel, Poetry, Comics, Illustrations{
         this.language = language;
     }
 
-
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }
