@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
+// member function 3 and 4
+// add MemberService and replace admin with Account class
 
 public class main {
 
@@ -16,9 +18,6 @@ public class main {
         boolean run = true;
         Admin admin = Admin.getInstance();
         admin.addMember(admin);
-        //AuthorType[] mangaka = new AuthorType[]{AuthorType.writer, AuthorType.illustrator};
-        //Author sui = new Author( mangaka, "Ishida Sui", "Japan" );
-        //Comics tokyoGhoul = new Comics("Tokyo Ghoul", "japanese", sui, sui, 20, 100);
 
         while(run){
             System.out.println("Hello! What would you like to do?");
@@ -84,7 +83,7 @@ public class main {
                     boolean logged_in = true;
                     while (logged_in) {
                         System.out.println("What would you like to do?");
-                        System.out.println("1. Add book -- 2. Update book -- 3. Show list -- 4. Log out");
+                        System.out.println("1. Add book -- 2. Update book -- 3. Show list -- 4. See stats -- 5. Log out");
                         String action = read.nextLine();
                         if (Objects.equals(action, "1")) {
                             //member.addBook(tokyoGhoul, null, 0, null, null, null);
@@ -99,6 +98,13 @@ public class main {
                             continue;
                         }
                         if (Objects.equals(action, "4")) {
+                            // time spent reading (2 minutes per page)
+                            // how many books they are reading
+                            // how many books they completed
+                            // how many books they dropped
+                            // how many books they plan to read
+                        }
+                        if (Objects.equals(action, "5")) {
                             admin.logout();
                             logged_in = false;
                         }
@@ -113,6 +119,10 @@ public class main {
 
 
         /*
+
+                //AuthorType[] mangaka = new AuthorType[]{AuthorType.writer, AuthorType.illustrator};
+        //Author sui = new Author( mangaka, "Ishida Sui", "Japan" );
+        //Comics tokyoGhoul = new Comics("Tokyo Ghoul", "japanese", sui, sui, 20, 100);
         admin.addAuthor(sui);
         admin.addBook(tokyoGhoul);
 
