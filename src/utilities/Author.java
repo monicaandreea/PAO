@@ -1,24 +1,26 @@
 package utilities;
 
+import java.util.ArrayList;
+
 public class Author {
-    AuthorType[] type;
+    ArrayList<AuthorType> type;
     String name;
     String country;
 
     public Author() {
     }
 
-    public Author(AuthorType[] type, String name, String country) {
+    public Author(ArrayList<AuthorType> type, String name, String country) {
         this.type = type;
         this.name = name;
         this.country = country;
     }
 
-    public AuthorType[] getType() {
+    public ArrayList<AuthorType> getType() {
         return type;
     }
 
-    public void setType(AuthorType[] type) {
+    public void setType(ArrayList<AuthorType> type) {
         this.type = type;
     }
 

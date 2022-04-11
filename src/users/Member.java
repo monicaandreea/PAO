@@ -8,11 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-
-//null parameters?
-// remove pages from reading list? add volumes?
-// replace pages with completion
-
 public class Member extends User{
     ArrayList<ReadingList> list = new ArrayList<ReadingList>();
 
@@ -27,6 +22,15 @@ public class Member extends User{
     public void addBook(Book book, ReadingState status, int pages, ReadingScore score, Date start_date, Date end_date){
         ReadingList reading = new ReadingList(book, status, pages, score, start_date, end_date);
         list.add(reading);
+    }
+
+    public void createBookEntry(){
+        // TO DO
+        // read book title
+        // read status
+        // read amount read
+        // read score
+        // read dates
     }
 
     public void updateScore(String title, ReadingScore score){
@@ -55,8 +59,42 @@ public class Member extends User{
         for(ReadingList entry : list){
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 // check if its smaller than pages/vols of book
-                entry.setAmount_read(amount);
-                return;
+                if(entry.getBook() instanceof Comics){
+                    if(((Comics) entry.getBook()).getVolumes() >= amount){
+                        entry.setAmount_read(amount);
+                        return;
+                    }
+                    else{
+                        System.out.println("Number is bigger than expected. Book has "+ ((Comics) entry.getBook()).getVolumes() + " volumes.");
+                    }
+                }
+                else if(entry.getBook() instanceof Illustrations) {
+                    if(((Illustrations) entry.getBook()).getPages() >= amount){
+                        entry.setAmount_read(amount);
+                        return;
+                    }
+                    else{
+                        System.out.println("Number is bigger than expected. Book has "+ ((Illustrations) entry.getBook()).getPages() + " pages.");
+                    }
+                }
+                else if(entry.getBook() instanceof Novel) {
+                    if(((Novel) entry.getBook()).getChapters() >= amount){
+                        entry.setAmount_read(amount);
+                        return;
+                    }
+                    else{
+                        System.out.println("Number is bigger than expected. Book has "+ ((Novel) entry.getBook()).getChapters() + " chapters.");
+                    }
+                }
+                else if(entry.getBook() instanceof Poetry) {
+                    if(((Poetry) entry.getBook()).getNo_poems() >= amount){
+                        entry.setAmount_read(amount);
+                        return;
+                    }
+                    else{
+                        System.out.println("Number is bigger than expected. Book has "+ ((Poetry) entry.getBook()).getNo_poems() + " poems.");
+                    }
+                }
             }
         }
         System.out.println(title + " is not in your reading list.");
@@ -86,10 +124,6 @@ public class Member extends User{
 
 /*
     Functions:
-        updateScore
-        updateDates
-        updatePages
-        updateStatus
         deleteBook
         addBook
         check if book exists

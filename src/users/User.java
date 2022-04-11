@@ -81,6 +81,7 @@ public class User {
         return "User{" +
                 "nickname='" + nickname + '\'' +
                 ", age=" + age +
+                ", pass="+ password +
                 '}';
     }
 }

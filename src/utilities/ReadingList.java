@@ -1,6 +1,5 @@
 package utilities;
-import books.Book;
-import books.Comics;
+import books.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -73,17 +72,28 @@ public class ReadingList {
 
     @Override
     public String toString() {
-        if( this.book instanceof Comics){
-            String amount_of = "volumes";
+        String amount_of = null;
+        if(this.book instanceof Comics){
+            amount_of = "volumes";
+        }
+        else if(this.book instanceof Illustrations) {
+            amount_of = "pages";
+        }
+        else if(this.book instanceof Novel) {
+            amount_of = "chapters";
+        }
+        else if(this.book instanceof Poetry) {
+            amount_of = "no_poems";
         }
 
-        return "ReadingList{" +
+        String s = "ReadingList{" +
                 "book=" + book.getTitle() +
                 ", status=" + status +
-                ", amount_read=" + amount_read +
+                ", " + amount_of + "=" + amount_read +
                 ", score=" + score +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
                 '}';
+        return s;
     }
 }
