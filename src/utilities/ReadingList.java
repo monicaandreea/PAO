@@ -13,6 +13,15 @@ public class ReadingList {
     Date start_date;
     Date end_date;
 
+    public ReadingList(Book book) {
+        this.book = book;
+        this.status = null;
+        this.amount_read = 0;
+        this.score = null;
+        this.start_date = null;
+        this.end_date = null;
+    }
+
     public ReadingList(Book book, ReadingState status, int amount_read, ReadingScore score, Date start_date, Date end_date) {
         this.book = book;
         this.status = status;

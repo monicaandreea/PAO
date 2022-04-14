@@ -114,14 +114,18 @@ public class Admin extends User{
                 }
             }
             if (!ok_1){
-                System.out.println("The author you have introduced is not valid. Try again.");
+                System.out.println("The author you have introduced is not valid. Try again or write 'exit' in order to quit this menu.");
                 System.out.println("Writer: ");
                 myWriter = read.nextLine();
+                if(Objects.equals(myWriter, "exit")) return;
+
             }
             if (!ok_2){
-                System.out.println("The author you have introduced is not valid. Try again.");
+                System.out.println("The author you have introduced is not valid. Try again or write 'exit' in order to quit this menu.");
                 System.out.println("Illustrator: ");
                 myIllustrator = read.nextLine();
+                if(Objects.equals(myIllustrator, "exit")) return;
+
             }
         }
 
@@ -154,9 +158,10 @@ public class Admin extends User{
                 }
             }
             if (!ok){
-                System.out.println("The author you have introduced is not valid. Try again.");
+                System.out.println("The author you have introduced is not valid. Try again or write 'exit' in order to quit this menu.");
                 System.out.println("Illustrator: ");
                 myIllustrator = read.nextLine();
+                if(Objects.equals(myIllustrator, "exit")) return;
             }
         }
 
@@ -191,9 +196,10 @@ public class Admin extends User{
                 }
             }
             if (!ok){
-                System.out.println("The author you have introduced is not valid. Try again.");
+                System.out.println("The author you have introduced is not valid. Try again or write 'exit' in order to quit this menu.");
                 System.out.println("Novelist: ");
                 myNovelist = read.nextLine();
+                if(Objects.equals(myNovelist, "exit")) return;
             }
         }
 
@@ -226,9 +232,11 @@ public class Admin extends User{
                 }
             }
             if (!ok){
-                System.out.println("The author you have introduced is not valid. Try again.");
+                System.out.println("The author you have introduced is not valid. Try again or write 'exit' in order to quit this menu.");
                 System.out.println("Poet: ");
                 myPoet = read.nextLine();
+                if(Objects.equals(myPoet, "exit")) return;
+
             }
         }
 

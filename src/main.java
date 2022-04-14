@@ -4,12 +4,22 @@ import utilities.*;
 
 import javax.swing.plaf.metal.MetalMenuBarUI;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 // member function 3 and 4
-// add MemberService and replace admin with Account class
+// de mutat toate functiile de adaugare/update in service
+// de mutat functiile din main de aici intr-un class menu
+// add date joined to member as current date when initialising
+// check if book/author already exists when admin adds it
+// check that member email is unique and change password if they forgot it?
+// check that email and dates are valid (end date>start date and smaller than current date?)
+// change end date to today when book status is completed (la update)
+// "book succesfully added/updated" message
 
 public class main {
 
@@ -83,14 +93,52 @@ public class main {
                     boolean logged_in = true;
                     while (logged_in) {
                         System.out.println("What would you like to do?");
-                        System.out.println("1. Add book -- 2. Update book -- 3. Show list -- 4. See stats -- 5. Log out");
+                        System.out.println("1. Add book -- 2. Update book -- 3. Show list -- 4. See stats -- 5. See books -- 6. Log out");
                         String action = read.nextLine();
                         if (Objects.equals(action, "1")) {
-                            //member.addBook(tokyoGhoul, null, 0, null, null, null);
+                            System.out.println("What book would you like to add to your list? (title)");
+                            String book_name = read.nextLine();
+
+                            member.createBookEntry(book_name);
+
                             continue;
                         }
                         if (Objects.equals(action, "2")) {
-                            member.updateAmountRead("Tokyo Ghoul", 5);
+                            System.out.println("What book would you like to update? (title)");
+                            String book_name = read.nextLine();
+                            System.out.println("What would you like to update?");
+                            System.out.println("1. Score  -- 2. Status -- 3. Amount Read -- 4. Start/End Date");
+                            String update_action = read.nextLine();
+
+                            if (Objects.equals(update_action, "1")) {
+                                System.out.println("What is the new score?");
+                                System.out.println("1- masterpiece -- 2. good -- 3. average -- 4. bad -- 5. horrible");
+                                String new_value = read.nextLine();
+                                member.updateScore(book_name, ReadingScore.forInt(parseInt(new_value)));
+                                continue;
+                            }
+                            if (Objects.equals(update_action, "2")) {
+                                System.out.println("What is the new status?");
+                                System.out.println("1- completed -- 2. reading -- 3. dropped -- 4. plan to read");
+                                String new_value = read.nextLine();
+                                member.updateStatus(book_name, ReadingState.forInt(parseInt(new_value)));
+                                if(Objects.equals(new_value, "1")){
+                                    member.updateAmountRead(book_name, -1);
+                                }
+                                if(Objects.equals(new_value, "4")){
+                                    member.updateAmountRead(book_name, 0);
+                                }
+                                continue;
+                            }
+                            if (Objects.equals(update_action, "3")) {
+                                System.out.println("How much have you read?");
+                                String new_value = read.nextLine();
+                                member.updateAmountRead(book_name, parseInt(new_value));
+                                continue;
+                            }
+                            if (Objects.equals(update_action, "4")) {
+                                member.updateDates(book_name);
+                            }
                             continue;
                         }
                         if (Objects.equals(action, "3")) {
@@ -98,13 +146,18 @@ public class main {
                             continue;
                         }
                         if (Objects.equals(action, "4")) {
+                            // date joined
+                            // age
                             // time spent reading (2 minutes per page)
                             // how many books they are reading
                             // how many books they completed
                             // how many books they dropped
                             // how many books they plan to read
                         }
-                        if (Objects.equals(action, "5")) {
+                        if (Objects.equals(action, "5")){
+                            System.out.println(admin.getBooks());
+                        }
+                        if (Objects.equals(action, "6")) {
                             admin.logout();
                             logged_in = false;
                         }
@@ -116,35 +169,5 @@ public class main {
                 return;
             }
         }
-
-
-        /*
-
-                //AuthorType[] mangaka = new AuthorType[]{AuthorType.writer, AuthorType.illustrator};
-        //Author sui = new Author( mangaka, "Ishida Sui", "Japan" );
-        //Comics tokyoGhoul = new Comics("Tokyo Ghoul", "japanese", sui, sui, 20, 100);
-        admin.addAuthor(sui);
-        admin.addBook(tokyoGhoul);
-
-        //Member membru = new Member("monica@gmail.com", "monica", new Date(2001, 6, 4), "123456");
-
-        admin.createAccount();
-
-        System.out.println(admin.getMembers());
-        System.out.println(admin.getAuthors());
-        System.out.println(admin.getBooks());
-        admin.login();
-
-        System.out.println(admin.getLoggedUser());
-
-        Member user = (Member) admin.getLoggedUser();
-        user.addBook(tokyoGhoul, null, 0, null, null, null);
-
-        System.out.println(user.getList());
-
-        user.updateScore("Tokyo ghoul", ReadingScore.masterpiece);
-        user.updateStatus("Tokyo ghoul", ReadingState.reading);
-        user.updateAmountRead("Tokyo ghoul", 5);
-        System.out.println(user.getList()); */
     }
 }
