@@ -1,11 +1,9 @@
-package books;
-
-import utilities.Author;
+package model;
 
 public final class Novel extends Book{
-    Author novelist;
-    int chapters;
-    int pages;
+    private Author novelist;
+    private int chapters;
+    private int pages;
 
     public Novel(String title, String language, Author novelist, int chapters, int pages) {
         super(title, language);

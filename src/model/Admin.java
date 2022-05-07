@@ -1,8 +1,4 @@
-package users;
-import books.*;
-import jdk.swing.interop.SwingInterOpUtils;
-import utilities.Author;
-import utilities.AuthorType;
+package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

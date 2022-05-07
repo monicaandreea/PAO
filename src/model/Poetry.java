@@ -1,10 +1,8 @@
-package books;
-
-import utilities.Author;
+package model;
 
 public final class Poetry extends Book{
-    Author poet;
-    int no_poems;
+    private Author poet;
+    private int no_poems;
 
     public Poetry(String title, String language, Author poet, int no_poems) {
         super(title, language);

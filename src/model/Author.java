@@ -1,16 +1,24 @@
-package utilities;
+package model;
 
 import java.util.ArrayList;
 
 public class Author {
-    ArrayList<AuthorType> type;
-    String name;
-    String country;
+    private int id;
+    private ArrayList<AuthorType> type;
+    private String name;
+    private String country;
 
     public Author() {
     }
 
     public Author(ArrayList<AuthorType> type, String name, String country) {
+        this.type = type;
+        this.name = name;
+        this.country = country;
+    }
+
+    public Author(int id, ArrayList<AuthorType> type, String name, String country) {
+        this.id = id;
         this.type = type;
         this.name = name;
         this.country = country;
@@ -44,6 +52,7 @@ public class Author {
     public String toString() {
         return "Author{" +
                 "name='" + name + '\'' +
+                "type=" + type +
                 '}';
     }
 }

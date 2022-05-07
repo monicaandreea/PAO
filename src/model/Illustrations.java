@@ -1,10 +1,8 @@
-package books;
-
-import utilities.Author;
+package model;
 
 public final class Illustrations extends Book{
-    Author illustrator;
-    int pages;
+    private Author illustrator;
+    private int pages;
 
     public Illustrations(String title, String language, Author illustrator, int pages) {
         super(title, language);

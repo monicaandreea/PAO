@@ -1,8 +1,9 @@
-package books;
+package model;
 
 public sealed class Book permits Novel, Poetry, Comics, Illustrations{
-    String title;
-    String language;
+    private int id;
+    private String title;
+    private String language;
 
     public Book(String title, String language) {
         this.title = title;

@@ -1,12 +1,10 @@
-package books;
-
-import utilities.Author;
+package model;
 
 public final class Comics extends Book{
-    Author writer;
-    Author illustrator;
-    int volumes;
-    int chapters;
+    private Author writer;
+    private Author illustrator;
+    private int volumes;
+    private int chapters;
 
     public Comics(String title, String language, Author writer, Author illustrator, int volumes, int chapters) {
         super(title, language);

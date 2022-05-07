@@ -1,4 +1,4 @@
-package utilities;
+package model;
 
 public enum ReadingState {
     completed(1),

@@ -1,17 +1,12 @@
-import books.*;
-import users.*;
-import utilities.*;
+import model.*;
 
-import javax.swing.plaf.metal.MetalMenuBarUI;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
-// member function 3 and 4
+// member function  4
 // de mutat toate functiile de adaugare/update in service
 // de mutat functiile din main de aici intr-un class menu
 // add date joined to member as current date when initialising
@@ -98,9 +93,7 @@ public class main {
                         if (Objects.equals(action, "1")) {
                             System.out.println("What book would you like to add to your list? (title)");
                             String book_name = read.nextLine();
-
                             member.createBookEntry(book_name);
-
                             continue;
                         }
                         if (Objects.equals(action, "2")) {

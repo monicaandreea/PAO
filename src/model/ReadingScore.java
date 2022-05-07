@@ -1,4 +1,4 @@
-package utilities;
+package model;
 
 public enum ReadingScore {
     masterpiece(1),

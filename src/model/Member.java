@@ -1,8 +1,4 @@
-package users;
-import utilities.ReadingList;
-import books.*;
-import utilities.ReadingScore;
-import utilities.ReadingState;
+package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

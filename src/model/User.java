@@ -1,8 +1,6 @@
-package users;
-import utilities.ReadingList;
+package model;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class User {

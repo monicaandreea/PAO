@@ -1,17 +1,14 @@
-package utilities;
-import books.*;
+package model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class ReadingList {
-    Book book;
-    ReadingState status;
-    int amount_read;
-    ReadingScore score;
-    Date start_date;
-    Date end_date;
+    private Book book;
+    private ReadingState status;
+    private int amount_read;
+    private ReadingScore score;
+    private Date start_date;
+    private Date end_date;
 
     public ReadingList(Book book) {
         this.book = book;
