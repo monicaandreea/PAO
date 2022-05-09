@@ -1,5 +1,9 @@
 package model;
 
+import service.AuthorService;
+import service.BookService;
+import service.MemberService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ public class Admin extends User{
         this.nickname = nickname;
         this.password = password;
         LoggedUser = null;
+        members = (ArrayList<User>) MemberService.getAllMembers();
+        authors = (ArrayList<Author>) AuthorService.getAllAuthors();
+        books = (ArrayList<Book>) BookService.getAllBooks();
     }
 
     public static Admin getInstance(){

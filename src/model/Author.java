@@ -48,11 +48,17 @@ public class Author {
         this.country = country;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "Author{" +
-                "name='" + name + '\'' +
-                "type=" + type +
-                '}';
+        return "\nName='" + name + '\'' +
+                "type=" + type;
     }
 }

@@ -92,14 +92,13 @@ public class ReadingList {
             amount_of = "no_poems";
         }
 
-        String s = "ReadingList{" +
-                "book=" + book.getTitle() +
+        String s = "\n" +
+                "Title=" + book.getTitle() +
                 ", status=" + status +
                 ", " + amount_of + "=" + amount_read +
                 ", score=" + score +
                 ", start_date=" + start_date +
-                ", end_date=" + end_date +
-                '}';
+                ", end_date=" + end_date ;
         return s;
     }
 }

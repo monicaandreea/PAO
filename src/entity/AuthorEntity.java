@@ -11,6 +11,9 @@ public class AuthorEntity {
         this.country = country;
     }
 
+    public AuthorEntity() {
+    }
+
     public int getId() {
         return id;
     }

@@ -22,7 +22,7 @@ public class User {
         this.nickname = nickname;
         this.birthday = birthday;
         this.password = password;
-        this.calculateAge();
+        //this.calculateAge();
     }
 
     public int getId() {
@@ -76,10 +76,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "nickname='" + nickname + '\'' +
+        return "\nNickname='" + nickname + '\'' +
                 ", age=" + age +
-                ", pass="+ password +
-                '}';
+                ", pass="+ password;
     }
 }
