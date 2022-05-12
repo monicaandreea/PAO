@@ -1,7 +1,5 @@
 package service;
 
-
-
 import entity.AuthorEntity;
 import entity.TypeEntity;
 import mapper.RowMapper;
@@ -49,6 +47,66 @@ public class DatabaseService {
             }
         }
         return result;
+    }
+
+    public static void insertQuery(String sql){
+        Connection conn = null;
+        Statement stmt = null;
+        List<Object> result = new ArrayList<>();
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            conn.close();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public static void updateQuery(String sql){
+        Connection conn = null;
+        Statement stmt = null;
+        List<Object> result = new ArrayList<>();
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            conn.close();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se) {
+                se.printStackTrace();
+            }
+        }
     }
 
 }

@@ -19,6 +19,9 @@ public class MemberEntity {
         this.age = age;
     }
 
+    public MemberEntity() {
+    }
+
     public int getId() {
         return id;
     }

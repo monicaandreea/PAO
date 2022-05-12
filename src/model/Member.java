@@ -1,5 +1,11 @@
 package model;
 
+import entity.BookIdEntity;
+import service.AuthorService;
+import service.BookService;
+import service.DatabaseService;
+import service.MemberService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +36,7 @@ public class Member extends User{
 
     public void createBookEntry(String book_name) throws ParseException {
         Scanner read = new Scanner(System.in);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         ArrayList<Book> books = Admin.getInstance().getBooks();
         for(Book book : books){
@@ -46,6 +52,9 @@ public class Member extends User{
                 ReadingList entry = new ReadingList(book);
                 addBook(book, null, 0, null, null, null);
 
+                int member_id = MemberService.getMemberIdByName(Admin.getInstance().LoggedUser.nickname);
+                BookIdEntity bookIdEntity = BookService.getBookByName(book_name);
+
                 System.out.println("What is the status of this book?");
                 System.out.println("1- completed -- 2. reading -- 3. dropped -- 4. plan to read");
                 String status = read.nextLine();
@@ -58,18 +67,25 @@ public class Member extends User{
                     String score = read.nextLine();
                     updateScore(book_name, ReadingScore.forInt(parseInt(score)));
 
-                    System.out.println("When did you start reading? (dd-mm-yyyy)");
+                    System.out.println("When did you start reading? (yyyy-mm-dd)");
                     String start_date = read.nextLine();
                     Date start = formatter.parse(start_date);
                     updateStartDate(book_name, start);
 
-                    System.out.println("When did you finish reading? (dd-mm-yyyy)");
+                    System.out.println("When did you finish reading? (yyyy-mm-dd)");
                     String end_date = read.nextLine();
                     Date end = formatter.parse(end_date);
                     updateEndDate(book_name, end);
+
+                    DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, end_date, type) values ("+
+                           member_id+", "+bookIdEntity.getId()+", 'completed', -1, '"+ ReadingScore.forInt(parseInt(score))+
+                            "' , {ts '"+ start_date +" 18:47:52.69'}, {ts '"+ end_date +" 18:47:52.69'}, '" + bookIdEntity.getType() +"' )");
+
                 }
                 else if(Objects.equals(status, "4")){
                    updateAmountRead(book_name, 0);
+                    DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, type) values ("+
+                            member_id+", "+bookIdEntity.getId()+", 'plan_to_read', 0, 'average', '" + bookIdEntity.getType() +"' )");
                 }
                 else{
                     System.out.println("How much have you read?");
@@ -81,10 +97,22 @@ public class Member extends User{
                     String score = read.nextLine();
                     updateScore(book_name, ReadingScore.forInt(parseInt(score)));
 
-                    System.out.println("When did you start reading? (dd-mm-yyyy)");
+                    System.out.println("When did you start reading? (yyyy-mm-dd)");
                     String start_date = read.nextLine();
                     Date start = formatter.parse(start_date);
                     updateStartDate(book_name, start);
+
+
+                    if(Objects.equals(status, "2")) {
+                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
+                                member_id + ", " + bookIdEntity.getId() + ", 'reading',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                    }
+                    else{
+                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
+                                member_id + ", " + bookIdEntity.getId() + ", 'dropped',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                    }
                 }
                 return;
             }

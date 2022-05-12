@@ -44,4 +44,20 @@ public class AuthorRepository {
         return result;
     }
 
+    public static AuthorEntity findByName(String name){
+        List<Object> objects = DatabaseService.readQuery("select * from author where name = '"+ name+"'", new AuthorEntityMapper());
+        AuthorEntity result = new AuthorEntity();
+
+        for (Object object : objects){
+            if(object instanceof AuthorEntity){
+                result = (AuthorEntity) object;
+            }
+            else{
+                throw new RuntimeException("Expected other instance.");
+            }
+        }
+
+        return result;
+    }
+
 }

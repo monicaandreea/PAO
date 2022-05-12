@@ -1,6 +1,8 @@
 package service;
 
 import entity.*;
+import mapper.AuthorEntityMapper;
+import mapper.BookIdEntityMapper;
 import model.*;
 import repository.*;
 
@@ -17,7 +19,6 @@ public class BookService {
             novels.add(new Novel(novelEntity.getTitle(), novelEntity.getLanguage(), author, novelEntity.getChapters(), novelEntity.getPages()));
         }
 
-        System.out.println(novels);
         return novels;
     }
 
@@ -105,5 +106,11 @@ public class BookService {
         books.addAll(poems);
 
         return books;
+    }
+
+    public static BookIdEntity getBookByName(String title){
+        BookIdEntity bookIdEntity = BookIdRepository.findByName(title);
+
+        return bookIdEntity;
     }
 }

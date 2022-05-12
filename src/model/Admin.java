@@ -2,6 +2,7 @@ package model;
 
 import service.AuthorService;
 import service.BookService;
+import service.DatabaseService;
 import service.MemberService;
 
 import java.text.ParseException;
@@ -134,6 +135,11 @@ public class Admin extends User{
 
         Comics comic = new Comics(myTitle, myLanguage, writer, illustrator, parseInt(myVolumes), parseInt(myChapters));
 
+        int writer_id = AuthorService.getAuthorIdByName(writer.getName());
+        int illust_id = AuthorService.getAuthorIdByName(illustrator.getName());
+        DatabaseService.insertQuery("insert into comics(writer_id, illust_id, title, language, volumes, chapters) values ("+
+                writer_id+","+illust_id+", '"+myTitle+"', '"+myLanguage+"', "+ myVolumes+","+myChapters+")");
+
         addBook(comic);
     }
 
@@ -169,6 +175,10 @@ public class Admin extends User{
         }
 
         Illustrations illust = new Illustrations(myTitle, myLanguage, illustrator, parseInt(myPages));
+
+        int illust_id = AuthorService.getAuthorIdByName(illustrator.getName());
+        DatabaseService.insertQuery("insert into illustrations(illust_id, title, language, pages) values ("+
+                illust_id+", '"+myTitle+"', '"+myLanguage+"', "+ myPages+")");
 
         addBook(illust);
     }
@@ -208,6 +218,10 @@ public class Admin extends User{
 
         Novel novel = new Novel(myTitle, myLanguage, novelist, parseInt(myChapters), parseInt(myPages));
 
+        int novelist_id = AuthorService.getAuthorIdByName(novelist.getName());
+        DatabaseService.insertQuery("insert into novel(novelist_id, title, language, chapters, pages) values ("+
+                novelist_id+", '"+myTitle+"', '"+myLanguage+"', "+ myChapters+", "+ myPages+")");
+
         addBook(novel);
     }
 
@@ -245,6 +259,10 @@ public class Admin extends User{
 
         Poetry poetry = new Poetry(myTitle, myLanguage, poet, parseInt(myPoems));
 
+        int poet_id = AuthorService.getAuthorIdByName(poet.getName());
+        DatabaseService.insertQuery("insert into poetry(poet_id, title, language, poems) values ("+
+                poet_id+", '"+myTitle+"', '"+myLanguage+"', "+ myPoems+")");
+
         addBook(poetry);
     }
     public void CreateAuthor() {
@@ -263,9 +281,21 @@ public class Admin extends User{
         System.out.println("Illustrator? (yes/no)");
         String illustrator_check = read.nextLine();
 
-        if (Objects.equals(novelist_check, "yes")) author_type.add(AuthorType.novelist);
-        if (Objects.equals(poet_check, "yes")) author_type.add(AuthorType.poet);
-        if (Objects.equals(illustrator_check, "yes")) author_type.add(AuthorType.illustrator);
+        DatabaseService.insertQuery("insert into author(name, country) values ('"+myName+"','"+myCountry+"')");
+        int author_id = AuthorService.getAuthorIdByName(myName);
+
+        if (Objects.equals(novelist_check, "yes")) {
+            author_type.add(AuthorType.novelist);
+            DatabaseService.insertQuery("insert into author_type(author_id, type_id) values ("+author_id+", 1)");
+        }
+        if (Objects.equals(poet_check, "yes")) {
+            author_type.add(AuthorType.poet);
+            DatabaseService.insertQuery("insert into author_type(author_id, type_id) values ("+author_id+", 2)");
+        }
+        if (Objects.equals(illustrator_check, "yes")) {
+            author_type.add(AuthorType.illustrator);
+            DatabaseService.insertQuery("insert into author_type(author_id, type_id) values ("+author_id+", 3)");
+        }
 
         Author author = new Author(author_type ,myName, myCountry);
 
@@ -301,13 +331,18 @@ public class Admin extends User{
         String myPassword = myObj.nextLine();
         System.out.println("Nickname: ");
         String myName = myObj.nextLine();
-        System.out.println("Date of birth (dd-mm-yyyy): ");
+        System.out.println("Date of birth (yyyy-mm-dd): ");
         String birthday = myObj.next();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date myBirthday = formatter.parse(birthday);
         ArrayList<User> members = getMembers();
         Member member = new Member(myEmail, myName, myBirthday, myPassword);
         addMember(member);
+
+        int myAge = 20;
+
+        DatabaseService.insertQuery("insert into member(email, nickname, password, birthday, age) values ('"+
+                myEmail+"', '"+ myName+"', '"+myPassword+"', {ts '"+ birthday +" 18:47:52.69'} ,"+myAge+")");
 
     }
 

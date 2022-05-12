@@ -22,7 +22,6 @@ public class AuthorService {
             authors.add(new Author(authorEntity.getId(), (ArrayList<AuthorType>) author_type, authorEntity.getName(), authorEntity.getCountry()));
         }
 
-        System.out.println(authors);
         return authors;
     }
 
@@ -32,7 +31,17 @@ public class AuthorService {
         List<AuthorType> author_type = TypeRepository.findTypes(authorEntity.getId());
         Author author = new Author(authorEntity.getId(), (ArrayList<AuthorType>) author_type, authorEntity.getName(), authorEntity.getCountry());
 
-        System.out.println(author);
         return author;
     }
+
+    public static Integer getAuthorIdByName(String name){
+        AuthorEntity authorEntity = AuthorRepository.findByName(name);
+
+        return authorEntity.getId();
+    }
+
+    public static void addAuthor(Author author){
+        DatabaseService.insertQuery("insert into author(name, country) values ('"+author.getName()+"','"+author.getCountry()+"')");
+    }
+
 }

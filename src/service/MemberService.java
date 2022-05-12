@@ -40,12 +40,15 @@ public class MemberService {
                 }
             }
             members.add(member);
-            System.out.println("MEMBRU");
-            System.out.println(member);
-            System.out.println(member.getList());
         }
 
     return members;
+    }
+
+    public static Integer getMemberIdByName(String name){
+        MemberEntity memberEntity = MemberRepository.findByName(name);
+
+        return memberEntity.getId();
     }
 
 }
