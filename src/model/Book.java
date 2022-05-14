@@ -28,6 +28,6 @@ public sealed class Book permits Novel, Poetry, Comics, Illustrations{
 
     @Override
     public String toString() {
-        return "\nTitle='" + title + '\'';
+        return "Title: " + title;
     }
 }

@@ -346,10 +346,4 @@ public class Admin extends User{
 
     }
 
-    /*
-    Functions:
-        remove book
-        remove author
-        remove member
-     */
 }

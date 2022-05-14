@@ -51,4 +51,11 @@ public class MemberService {
         return memberEntity.getId();
     }
 
+    public static void updateAmountRead(String title, int amount){
+        int member_id = MemberService.getMemberIdByName(Admin.getInstance().getLoggedUser().getNickname());
+        BookIdEntity bookIdEntity = BookService.getBookByName(title);
+        DatabaseService.updateQuery("update reading_list set amount = '" +
+                amount +"' where member_id = " + member_id + "and book_id =" + bookIdEntity.getId());
+    }
+
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class User {
         this.nickname = nickname;
         this.birthday = birthday;
         this.password = password;
-        //this.calculateAge();
+        this.calculateAge();
     }
 
     public int getId() {
@@ -61,23 +62,30 @@ public class User {
         return age;
     }
 
+    public static LocalDate asLocalDate(java.util.Date date) {
+        return date == null ? null : LocalDate.ofInstant(Instant.ofEpochMilli(date.getTime()), ZoneId.systemDefault());
+    }
+    
     public void calculateAge() {
         //      System.out.println("Enter your date of birth (dd-MM-yyyy): ");
         //      String dob = sc.next();
         //      SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         //      Date date = formatter.parse(dob);
-        Instant instant = birthday.toInstant();
-        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-        LocalDate givenDate = zone.toLocalDate();
-        Period period = Period.between(givenDate, LocalDate.now());
+        //        System.out.println(bday.getClass().getSimpleName());
+        //        Instant instant = bday.toInstant();
+        //        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        //        LocalDate givenDate = zone.toLocalDate();
+        //        Period period = Period.between(givenDate, LocalDate.now());
+        LocalDate bday = asLocalDate(birthday);
+        LocalDate date = LocalDate.now();
+        Period period = bday.until(date);
 
         this.age = period.getYears();
     }
 
     @Override
     public String toString() {
-        return "\nNickname='" + nickname + '\'' +
-                ", age=" + age +
-                ", pass="+ password;
+        return "Nickname: " + nickname + ", age: " + age +
+                ", email: "+ email;
     }
 }

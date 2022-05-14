@@ -58,7 +58,7 @@ public class Author {
 
     @Override
     public String toString() {
-        return "\nName='" + name + '\'' +
-                "type=" + type;
+        return "Name: " + name  +
+                " type: " + type;
     }
 }

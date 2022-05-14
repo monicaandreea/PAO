@@ -8,15 +8,9 @@ import service.MemberService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
-
-//show book by name in list
-// daca se poate simplifica update amount read
 
 public class Member extends User{
     ArrayList<ReadingList> list = new ArrayList<ReadingList>();
@@ -67,19 +61,41 @@ public class Member extends User{
                     String score = read.nextLine();
                     updateScore(book_name, ReadingScore.forInt(parseInt(score)));
 
-                    System.out.println("When did you start reading? (yyyy-mm-dd)");
+                    System.out.println("When did you start reading? (yyyy-mm-dd) (Please write '0' if you dont remember.)");
                     String start_date = read.nextLine();
-                    Date start = formatter.parse(start_date);
-                    updateStartDate(book_name, start);
 
-                    System.out.println("When did you finish reading? (yyyy-mm-dd)");
+                    System.out.println("When did you finish reading? (yyyy-mm-dd) (Please write '0' if you dont remember.)");
                     String end_date = read.nextLine();
-                    Date end = formatter.parse(end_date);
-                    updateEndDate(book_name, end);
 
-                    DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, end_date, type) values ("+
-                           member_id+", "+bookIdEntity.getId()+", 'completed', -1, '"+ ReadingScore.forInt(parseInt(score))+
-                            "' , {ts '"+ start_date +" 18:47:52.69'}, {ts '"+ end_date +" 18:47:52.69'}, '" + bookIdEntity.getType() +"' )");
+                    if(!Objects.equals("0", end_date) && !Objects.equals("0", start_date)){
+                        Date start = formatter.parse(start_date);
+                        updateStartDate(book_name, start);
+
+                        Date end = formatter.parse(end_date);
+                        updateEndDate(book_name, end);
+
+                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, end_date, type) values ("+
+                                member_id+", "+bookIdEntity.getId()+", 'completed', -1, '"+ ReadingScore.forInt(parseInt(score))+
+                                "' , {ts '"+ start_date +" 18:47:52.69'}, {ts '"+ end_date +" 18:47:52.69'}, '" + bookIdEntity.getType() +"' )");
+                    }
+                    else if(Objects.equals("0", end_date)){
+                        Date start = formatter.parse(start_date);
+                        updateStartDate(book_name, start);
+
+                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values ("+
+                                member_id+", "+bookIdEntity.getId()+", 'completed', -1, '"+ ReadingScore.forInt(parseInt(score))+
+                                "' , {ts '"+ start_date +" 18:47:52.69'}, '" + bookIdEntity.getType() +"' )");
+                    }
+                    else if(Objects.equals("0", start_date)){
+                        Date end = formatter.parse(end_date);
+                        updateEndDate(book_name, end);
+
+                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, end_date, type) values ("+
+                                member_id+", "+bookIdEntity.getId()+", 'completed', -1, '"+ ReadingScore.forInt(parseInt(score))+
+                                "' , {ts '"+ end_date +" 18:47:52.69'}, '" + bookIdEntity.getType() +"' )");
+                    }
+
+
 
                 }
                 else if(Objects.equals(status, "4")){
@@ -97,21 +113,35 @@ public class Member extends User{
                     String score = read.nextLine();
                     updateScore(book_name, ReadingScore.forInt(parseInt(score)));
 
-                    System.out.println("When did you start reading? (yyyy-mm-dd)");
+                    System.out.println("When did you start reading? (yyyy-mm-dd) (Please write '0' if you dont remember.)");
                     String start_date = read.nextLine();
-                    Date start = formatter.parse(start_date);
-                    updateStartDate(book_name, start);
 
+                    if(!Objects.equals("0", start_date)){
+                        Date start = formatter.parse(start_date);
+                        updateStartDate(book_name, start);
 
-                    if(Objects.equals(status, "2")) {
-                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
-                                member_id + ", " + bookIdEntity.getId() + ", 'reading',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
-                                "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                        if(Objects.equals(status, "2")) {
+                            DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
+                                    member_id + ", " + bookIdEntity.getId() + ", 'reading',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                    "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                        }
+                        else{
+                            DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
+                                    member_id + ", " + bookIdEntity.getId() + ", 'dropped',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                    "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                        }
                     }
                     else{
-                        DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, start_date, type) values (" +
-                                member_id + ", " + bookIdEntity.getId() + ", 'dropped',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
-                                "' , {ts '" + start_date + " 18:47:52.69'}, '" + bookIdEntity.getType() + "' )");
+                        if(Objects.equals(status, "2")) {
+                            DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, type) values (" +
+                                    member_id + ", " + bookIdEntity.getId() + ", 'reading',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                    "' , '" + bookIdEntity.getType() + "' )");
+                        }
+                        else{
+                            DatabaseService.insertQuery("insert into reading_list(member_id, book_id, status, amount, score, type) values (" +
+                                    member_id + ", " + bookIdEntity.getId() + ", 'dropped',"+ value +",'" + ReadingScore.forInt(parseInt(score)) +
+                                    "' , '" + bookIdEntity.getType() + "' )");
+                        }
                     }
                 }
                 return;
@@ -125,6 +155,11 @@ public class Member extends User{
         for(ReadingList entry : list){
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 entry.setScore(score);
+
+                int member_id = MemberService.getMemberIdByName(Admin.getInstance().LoggedUser.nickname);
+                BookIdEntity bookIdEntity = BookService.getBookByName(title);
+                DatabaseService.updateQuery("update reading_list set score = '" +
+                        score +"' where member_id = " + member_id + " and book_id =" + bookIdEntity.getId());
                 return;
             }
         }
@@ -135,6 +170,11 @@ public class Member extends User{
         for(ReadingList entry : list){
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 entry.setStatus(status);
+
+                int member_id = MemberService.getMemberIdByName(Admin.getInstance().LoggedUser.nickname);
+                BookIdEntity bookIdEntity = BookService.getBookByName(title);
+                DatabaseService.updateQuery("update reading_list set status = '" +
+                        status +"' where member_id = " + member_id + " and book_id =" + bookIdEntity.getId());
                 return;
             }
         }
@@ -147,8 +187,12 @@ public class Member extends User{
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 if(entry.getBook() instanceof Comics){
                     if(((Comics) entry.getBook()).getVolumes() >= amount){
-                        if(amount == -1) {entry.setAmount_read( ((Comics) entry.getBook()).getVolumes());}
+                        if(amount == -1) {
+                            entry.setAmount_read( ((Comics) entry.getBook()).getVolumes());
+                            MemberService.updateAmountRead(title, ((Comics) entry.getBook()).getVolumes());
+                        }
                         else entry.setAmount_read(amount);
+                        MemberService.updateAmountRead(title, amount);
                         return;
                     }
                     else{
@@ -157,8 +201,12 @@ public class Member extends User{
                 }
                 else if(entry.getBook() instanceof Illustrations) {
                     if(((Illustrations) entry.getBook()).getPages() >= amount){
-                        if(amount == -1) {entry.setAmount_read( ((Illustrations) entry.getBook()).getPages());}
+                        if(amount == -1) {
+                            entry.setAmount_read( ((Illustrations) entry.getBook()).getPages());
+                            MemberService.updateAmountRead(title, ((Illustrations) entry.getBook()).getPages());
+                        }
                         else entry.setAmount_read(amount);
+                        MemberService.updateAmountRead(title, amount);
                         return;
                     }
                     else{
@@ -167,8 +215,12 @@ public class Member extends User{
                 }
                 else if(entry.getBook() instanceof Novel) {
                     if(((Novel) entry.getBook()).getChapters() >= amount){
-                        if(amount == -1) {entry.setAmount_read( ((Novel) entry.getBook()).getChapters());}
+                        if(amount == -1) {
+                            entry.setAmount_read( ((Novel) entry.getBook()).getChapters());
+                            MemberService.updateAmountRead(title,  ((Novel) entry.getBook()).getChapters());
+                        }
                         else entry.setAmount_read(amount);
+                        MemberService.updateAmountRead(title, amount);
                         return;
                     }
                     else{
@@ -177,8 +229,12 @@ public class Member extends User{
                 }
                 else if(entry.getBook() instanceof Poetry) {
                     if(((Poetry) entry.getBook()).getNo_poems() >= amount){
-                        if(amount == -1) {entry.setAmount_read( ((Poetry) entry.getBook()).getNo_poems());}
+                        if(amount == -1) {
+                            entry.setAmount_read( ((Poetry) entry.getBook()).getNo_poems());
+                            MemberService.updateAmountRead(title, ((Poetry) entry.getBook()).getNo_poems());
+                        }
                         else entry.setAmount_read(amount);
+                        MemberService.updateAmountRead(title, amount);
                         return;
                     }
                     else{
@@ -193,29 +249,64 @@ public class Member extends User{
 
     public void updateDates(String title) throws ParseException {
         Scanner read = new Scanner(System.in);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<ReadingList> list = getList();
+        int member_id = MemberService.getMemberIdByName(Admin.getInstance().LoggedUser.nickname);
+        BookIdEntity bookIdEntity = BookService.getBookByName(title);
 
         for(ReadingList entry : list){
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 if (entry.getStatus() == ReadingState.completed){
                     System.out.println("When did you start reading?");
-                    System.out.println("Please input the date dd-mm-yyyy or 0 if you don't remember.");
+                    System.out.println("Please input the date yyyy-mm-dd or 0 if you don't remember.");
 
                     String start_date = read.nextLine();
                     if(!Objects.equals(start_date, "0")){
                         Date start = formatter.parse(start_date);
+
+                        DatabaseService.updateQuery("update reading_list set start_date = {ts '"+ start_date +" 18:47:52.69'} where member_id = " +
+                                member_id + " and book_id =" + bookIdEntity.getId());
+
                         updateStartDate(title, start);
                     }
 
                     System.out.println("When did you finish reading?");
-                    System.out.println("Please input the date dd-mm-yyyy or 0 if you don't remember.");
+                    System.out.println("Please input the date yyyy-mm-dd or 0 if you don't remember.");
 
                     String end_date = read.nextLine();
                     if(!Objects.equals(end_date, "0")){
                         Date end = formatter.parse(end_date);
-                        updateEndDate(title, end);
+
+                        DatabaseService.updateQuery("update reading_list set end_date = {ts '"+ end_date +" 18:47:52.69'} where member_id = " +
+                                member_id + " and book_id =" + bookIdEntity.getId());
+
+
+                        updateEndDate(title, end, end_date);
                     }
+                }
+                else if (entry.getStatus() == ReadingState.reading || entry.getStatus() == ReadingState.dropped){
+                    System.out.println("When did you start reading?");
+                    System.out.println("Please input the date yyyy-mm-dd or 0 if you don't remember.");
+
+                    String start_date = read.nextLine();
+                    if(!Objects.equals(start_date, "0")){
+                        try{
+                            Date start = formatter.parse(start_date);
+
+                            DatabaseService.updateQuery("update reading_list set start_date = {ts '"+ start_date +" 18:47:52.69'} where member_id = " +
+                                    member_id + " and book_id =" + bookIdEntity.getId());
+
+                            updateStartDate(title, start);
+                        }
+                        catch (ParseException e){
+                            System.out.println("Introduced the date wrong. Please try again.");
+                            e.printStackTrace();
+                        }
+
+                    }
+                    }
+                else{
+                    System.out.println("You have this book set as 'plan to read'. Please change the status first.");
                 }
                 return;
             }
@@ -234,23 +325,20 @@ public class Member extends User{
         System.out.println(title + " is not in your reading list.");
     }
 
-    public void updateEndDate(String title, Date date){
+    public void updateEndDate(String title, Date date, String... db_date){
         ArrayList<ReadingList> list = getList();
         for(ReadingList entry : list){
             if(Objects.equals(entry.getBook().getTitle(), title)){
                 entry.setEnd_date(date);
+
+                int member_id = MemberService.getMemberIdByName(Admin.getInstance().LoggedUser.nickname);
+                BookIdEntity bookIdEntity = BookService.getBookByName(title);
+                DatabaseService.updateQuery("update reading_list set end_date = {ts '"+ db_date +" 18:47:52.69'} where member_id = " +
+                        member_id + " and book_id =" + bookIdEntity.getId());
                 return;
             }
         }
         System.out.println(title + " is not in your reading list.");
     }
 
-/*
-    Functions:
-        deleteBook
-        addBook
-        check if book exists
-        show reading list
-
-    */
 }
